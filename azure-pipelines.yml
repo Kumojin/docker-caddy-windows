@@ -8,20 +8,20 @@ strategy:
   matrix:
     linux:
       imageName: ubuntu-16.04
-      os: linux
+      dockerTag: linux
     windows:
-      os: windows
       imageName: win1803
+      dockerTag: windows
 
 pool:
   vmImage: $(imageName)
 
 steps:
-- script: docker build -f Dockerfile.${os} -t ${dockerImage}:${os} .
+- script: docker build -f Dockerfile.$(dockerTag) -t $(dockerImage):$(dockerTag) .
   displayName: Docker build
 
 - script: docker login  -u $(dockerId) -p $(dockerPassword)
   displayName: Docker registry login
 
-- script: 
-  displayName: Docker push ${dockerImage}:${os}
+- script: docker push $(dockerImage):$(dockerTag) 
+  displayName: Docker push image to registry

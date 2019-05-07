@@ -1,12 +1,20 @@
+# escape=`
 FROM mcr.microsoft.com/powershell:nanoserver-1803
-RUN pwsh.exe -Command \
-  $ErrorActionPreference = 'Stop'; \
-  Invoke-WebRequest https://github.com/mholt/caddy/releases/download/v1.0.0/caddy_v1.0.0_windows_amd64.zip -OutFile c:\caddy.zip; \
-  Expand-Archive -Path c:\caddy.zip -DestinationPath c:\caddy; \
-  Remove-Item c:\caddy.zip -Force
+#USER ContainerAdministrator
+
+SHELL ["pwsh.exe", "-Command"]
+
+# Download and expand released version
+RUN Invoke-WebRequest https://github.com/mholt/caddy/releases/download/v1.0.0/caddy_v1.0.0_windows_amd64.zip -OutFile C:\Users\ContainerUser\caddy.zip; `
+  Expand-Archive -Path C:\Users\ContainerUser\caddy.zip -DestinationPath C:\Users\ContainerUser\caddy; `
+  Remove-Item C:\Users\ContainerUser\caddy.zip -Force
 
 FROM mcr.microsoft.com/windows/nanoserver:1803
-COPY --from=0 c:/caddy c:/caddy
-COPY Caddyfile c:/caddy/Caddyfile
-ENTRYPOINT ["c:/caddy/caddy.exe"]
-CMD ["-conf", "c:\\caddy\\Caddyfile"]
+COPY --from=0 C:/Users/ContainerUser/caddy C:/Users/ContainerUser/caddy
+COPY Caddyfile C:/Users/ContainerUser/caddy/Caddyfile
+ENTRYPOINT C:\Users\ContainerUser\caddy\caddy.exe
+CMD -conf C:\Users\ContainerUser\caddy\Caddyfile
+
+
+
+
