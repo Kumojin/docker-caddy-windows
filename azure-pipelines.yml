@@ -1,0 +1,27 @@
+trigger:
+- master
+
+variables:
+  dockerImage: kumojin/caddy
+
+strategy:
+  matrix:
+    linux:
+      imageName: ubuntu-16.04
+      os: linux
+    windows:
+      os: windows
+      imageName: win1803
+
+pool:
+  vmImage: $(imageName)
+
+steps:
+- script: docker build -f Dockerfile.${os} -t ${dockerImage}:${os} .
+  displayName: Docker build
+
+- script: docker login  -u $(dockerId) -p $(dockerPassword)
+  displayName: Docker registry login
+
+- script: 
+  displayName: Docker push ${dockerImage}:${os}
