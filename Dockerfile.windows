@@ -13,8 +13,4 @@ FROM mcr.microsoft.com/windows/nanoserver:1903
 COPY --from=0 C:/Users/ContainerUser/caddy C:/Users/ContainerUser/caddy
 COPY Caddyfile C:/Users/ContainerUser/caddy/Caddyfile
 ENTRYPOINT C:\Users\ContainerUser\caddy\caddy.exe
-CMD -conf C:\Users\ContainerUser\caddy\Caddyfile
-
-
-
-
+CMD -conf C:\Users\ContainerUser\caddy\Caddyfile -root c:/website
