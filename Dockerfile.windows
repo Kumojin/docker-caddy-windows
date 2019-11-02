@@ -12,9 +12,5 @@ RUN Invoke-WebRequest https://github.com/mholt/caddy/releases/download/v1.0.0/ca
 FROM mcr.microsoft.com/windows/nanoserver:1803
 COPY --from=0 C:/Users/ContainerUser/caddy C:/Users/ContainerUser/caddy
 COPY Caddyfile C:/Users/ContainerUser/caddy/Caddyfile
-ENTRYPOINT C:\Users\ContainerUser\caddy\caddy.exe
-CMD -conf C:\Users\ContainerUser\caddy\Caddyfile
-
-
-
-
+ENTRYPOINT [ "C:\\Users\\ContainerUser\\caddy\\caddy.exe" ]
+CMD [ "-conf", "C:\\Users\\ContainerUser\\caddy\\Caddyfile" ]
