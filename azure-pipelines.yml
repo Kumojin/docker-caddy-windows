@@ -7,14 +7,14 @@ variables:
 strategy:
   matrix:
     linux:
-      imageName: ubuntu-16.04
+      poolName: Hosted Ubuntu 1604
       dockerTag: linux
     windows:
-      imageName: win1803
+      poolName: Julien Laptop
       dockerTag: windows
 
 pool:
-  vmImage: $(imageName)
+  name: $(poolName)
 
 steps:
 - script: docker build -f Dockerfile.$(dockerTag) -t $(dockerImage):$(dockerTag) .

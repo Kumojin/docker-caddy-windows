@@ -1,15 +1,15 @@
 # escape=`
-FROM mcr.microsoft.com/powershell:nanoserver-1803
+FROM mcr.microsoft.com/windows/servercore:1903
 #USER ContainerAdministrator
 
-SHELL ["pwsh.exe", "-Command"]
+SHELL ["powershell"]
 
 # Download and expand released version
 RUN Invoke-WebRequest https://github.com/mholt/caddy/releases/download/v1.0.0/caddy_v1.0.0_windows_amd64.zip -OutFile C:\Users\ContainerUser\caddy.zip; `
   Expand-Archive -Path C:\Users\ContainerUser\caddy.zip -DestinationPath C:\Users\ContainerUser\caddy; `
   Remove-Item C:\Users\ContainerUser\caddy.zip -Force
 
-FROM mcr.microsoft.com/windows/nanoserver:1803
+FROM mcr.microsoft.com/windows/nanoserver:1903
 COPY --from=0 C:/Users/ContainerUser/caddy C:/Users/ContainerUser/caddy
 COPY Caddyfile C:/Users/ContainerUser/caddy/Caddyfile
 ENTRYPOINT [ "C:\\Users\\ContainerUser\\caddy\\caddy.exe" ]
